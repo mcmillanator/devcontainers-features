@@ -118,16 +118,16 @@ done
 echo "checking for existing username"
 user=$(getent passwd "$_REMOTE_USER") || true
 # delete it if existing
-if [[ ! -z $user ]]; then
+if [[ -n $user ]]; then
   echo "removing existing user"
   deluser "$(getent passwd "$_REMOTE_USER" | sed 's/:\+/ /g' | awk '{print $1}')"
 fi
 # check for existing user by id
 user=$(getent passwd "$REMOTE_UID") || true
 # delete it if existing
-if [[ ! -z $user ]]; then
   echo "found existing user; removing"
   deluser "$(getent passwd 1001 | sed 's/:\+/ /g' | awk '{print $1}')"
+if [[ -n $uid ]]; then
 fi
 
 # create the new group
