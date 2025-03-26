@@ -1,0 +1,16 @@
+{
+  "create-remote-user": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "remoteUser": "devuser",
+    "features": {
+      "create-remote-user": {
+        "version": "latest",
+        "REMOTE_GID": "1000",
+        "REMOTE_GROUP": "devgrp",
+        "REMOTE_HOME": "/home/dev",
+        "REMOTE_SHELL": "/usr/bin/zsh",
+        "REMOTE_UID": "1000"
+      }
+    }
+  }
+}
