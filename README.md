@@ -13,10 +13,10 @@ all value are set.
 ```json
 "features": {
     "ghcr.io/devcontainers/feature-starter/hello:1": {
-        "version": "latest"
+        "version": "latest",
         "REMOTE_GID": "1000",
         "REMOTE_GROUP": "devgrp",
-        "REMOTE_HOME": "/home/dev"
+        "REMOTE_HOME": "/home/dev",
         "REMOTE_SHELL": "/usr/bin/zsh",
         "REMOTE_UID": "1000",
     }
@@ -24,10 +24,6 @@ all value are set.
 ```
 
 ## Distributing Features
-
-### Versioning
-
-Features are individually versioned by the `version` attribute in a Feature's `devcontainer-feature.json`. Features are versioned according to the semver specification. More details can be found in [the dev container Feature specification](https://containers.dev/implementors/features/#versioning).
 
 ### Publishing
 
