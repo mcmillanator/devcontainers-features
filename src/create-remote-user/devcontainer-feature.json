@@ -16,6 +16,12 @@
       "default": "devgrp",
       "description": "Select the group name"
     },
+    "REMOTE_HOME": {
+      "type": "string",
+      "proposals": ["/home/${_REMOTE_USER}"],
+      "default": "/home/${_REMOTE_USER}",
+      "description": "Set a default home dir"
+    },
     "REMOTE_SHELL": {
       "type": "string",
       "proposals": ["/usr/bin/zsh"],
