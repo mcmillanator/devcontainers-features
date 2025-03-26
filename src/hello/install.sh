@@ -190,7 +190,10 @@ fi
 for dep in "${DEPENDENCIES[@]}"; do
   if ! is_package_installed "$dep"; then
     echo "$dep not found, installing..."
-    install_package "$PACKAGE_MANAGER" "$dep"
+    install_package "$PACKAGE_MANAGER" "$dep" || exit_code=$?
+    if [ ! "${exit_code:-0}" -eq 0 ]; then
+      echo "error installing $dep, continuing anyway"
+    fi
   else
     echo "$dep already installed"
   fi
