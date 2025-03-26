@@ -107,7 +107,7 @@ is_index_update_required() {
       return 0 # Update required if cache is missing or empty
     fi
     # Check if any cache file is older than the limit
-    if find "$cache_dir" -type f -mtime +1 | grep -q .; then
+    if find "$cache_dir" -type f -mtime +$cache_age_limit | grep -q .; then
       return 0 # Update required if files are older than 1 day
     fi
     return 1 # No update needed
