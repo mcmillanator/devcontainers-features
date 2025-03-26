@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [ -z $_REMOTE_USER ] || [ $_REMOTE_USER = "root" ]; then
+  echo "\$_REMOTE_USER is blank or root. Eixting without action"
+  exit 0
+fi
+
 echo "Activating feature 'create-remote-user'"
 DEPENDENCIES=(adduser passwd)
 USER_OPTS=""
@@ -259,7 +264,5 @@ append_opt "-s" "$REMOTE_SHELL"
 USER_OPTS="-m $USER_OPTS"    # create the user's home directory if it does not exist
 USER_OPTS="${USER_OPTS#" "}" # remove leading space
 # create the new user
-if [[ -n $_REMOTE_USER ]]; then
-  echo "Adding user with command: 'useradd $USER_OPTS $_REMOTE_USER'"
-  useradd $USER_OPTS "$_REMOTE_USER"
-fi
+echo "Adding user with command: 'useradd $USER_OPTS $_REMOTE_USER'"
+useradd $USER_OPTS "$_REMOTE_USER"
