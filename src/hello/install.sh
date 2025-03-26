@@ -144,8 +144,8 @@ fi
 if [[ -n $REMOTE_UID ]]; then
   USER_OPTS="$USER_OPTS -mou $REMOTE_UID"
 fi
-if [[ -n $SHELL ]]; then
-  USER_OPTS="$USER_OPTS -s $SHELL"
+if [[ -n $REMOTE_SHELL ]]; then
+  USER_OPTS="$USER_OPTS -s $REMOTE_SHELL"
 fi
 if [[ -n $REMOTE_GROUP ]]; then
   USER_OPTS="$USER_OPTS -g $REMOTE_GROUP"
