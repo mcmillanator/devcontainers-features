@@ -1,22 +1,33 @@
 {
-    "name": "Hello, World!",
-    "id": "hello",
-    "version": "1.0.2",
-    "description": "A hello world feature",
-    "options": {
-        "greeting": {
-            "type": "string",
-            "proposals": [
-                "hey",
-                "hello",
-                "hi",
-                "howdy"
-            ],
-            "default": "hey",
-            "description": "Select a pre-made greeting, or enter your own"
-        }
+  "name": "Create Remote User & Group",
+  "id": "create-remote-user",
+  "version": "1.0.0",
+  "description": "Create the remoteUser at build time with options and group",
+  "options": {
+    "REMOTE_GID": {
+      "type": "string",
+      "proposals": ["1000"],
+      "default": "1000",
+      "description": "Select the GID"
     },
-    "installsAfter": [
-        "ghcr.io/devcontainers/features/common-utils"
-    ]
+    "REMOTE_GROUP": {
+      "type": "string",
+      "proposals": ["devgrp"],
+      "default": "devgrp",
+      "description": "Select the group name"
+    },
+    "REMOTE_SHELL": {
+      "type": "string",
+      "proposals": ["/usr/bin/zsh"],
+      "default": "/usr/bin/bash",
+      "description": "Select the user shell"
+    },
+    "REMOTE_UID": {
+      "type": "string",
+      "proposals": ["1000"],
+      "default": "1000",
+      "description": "Select the UID"
+    }
+  },
+  "installsAfter": ["ghcr.io/devcontainers/features/common-utils"]
 }
