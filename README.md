@@ -12,7 +12,7 @@ all value are set.
 
 ```json
 "features": {
-    "ghcr.io/devcontainers/feature-starter/hello:1": {
+    "ghcr.io/mcmillanator/create-remote-user:1": {
         "version": "latest",
         "REMOTE_GID": "1000",
         "REMOTE_GROUP": "devgrp",
