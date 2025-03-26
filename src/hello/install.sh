@@ -123,11 +123,13 @@ if [[ -n $user ]]; then
   deluser "$(getent passwd "$_REMOTE_USER" | sed 's/:\+/ /g' | awk '{print $1}')"
 fi
 # check for existing user by id
-user=$(getent passwd "$REMOTE_UID") || true
+uid=$(getent passwd "$REMOTE_UID") || true
 # delete it if existing
-  echo "found existing user; removing"
-  deluser "$(getent passwd 1001 | sed 's/:\+/ /g' | awk '{print $1}')"
 if [[ -n $uid ]]; then
+  echo "removing existing user"
+  user=$(getent passwd "$REMOTE_UID" | sed 's/:\+/ /g' | awk '{print $1}')
+  echo "command: deluser $user"
+  deluser "$user"
 fi
 
 # create the new group
