@@ -1,13 +1,10 @@
 {
-    "color_and_hello": {
-        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-        "features": {
-            "color": {
-                "favorite": "purple"
-            },
-            "hello": {
-                "greeting": "Greetings"
-            }
-        }
+  "create-remote-user": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "remoteUser": "devuser",
+    "features": {
+      "create-remote-user": {}
     }
+  }
 }
+
