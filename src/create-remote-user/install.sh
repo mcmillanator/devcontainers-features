@@ -174,6 +174,42 @@ is_index_update_required() {
   esac
 }
 
+searchent() {
+  library="$1"
+  search_key="$2"
+  getent "$library" "$search_key" | sed 's/:\+/ /g' | awk '{print $1}'
+}
+
+# check for exising user and remove if found
+# this is to ensure the desired user has the correct
+# UID GID
+remove_user() {
+  name_or_id=$1
+  echo "checking for existing user with: $name_or_id"
+  user=$(searchent passwd "$name_or_id") || true
+  # delete it if existing
+  if [[ -n $user ]]; then
+    echo "removing existing user"
+    deluser "$user"
+  fi
+}
+
+append_opt() {
+  local flag="$1" value="$2"
+  [[ -n "$value" ]] && USER_OPTS="$USER_OPTS $flag $value"
+}
+
+# check for existing group
+remove_group() {
+  name_or_id="$1"
+  echo "checking for existing group with: $name_or_id"
+  group=$(searchent group "$name_or_id" | sed 's/:\+/ /g' | awk '{print $1}') || true
+  # delete it if existing
+  if [[ -n $group ]]; then
+    echo "removing existing group"
+    delgroup "$group"
+  fi
+}
 # Main logic
 PACKAGE_MANAGER=$(detect_package_manager)
 echo "Detected package manager: $PACKAGE_MANAGER"
@@ -199,47 +235,31 @@ for dep in "${DEPENDENCIES[@]}"; do
   fi
 done
 
-# check for exising user and remove if found
-# this is to ensure the desired user has the correct
-# UID GID
 # check for existing user by name
-echo "checking for existing username"
-user=$(getent passwd "$_REMOTE_USER") || true
-# delete it if existing
-if [[ -n $user ]]; then
-  echo "removing existing user"
-  deluser "$(getent passwd "$_REMOTE_USER" | sed 's/:\+/ /g' | awk '{print $1}')"
-fi
+remove_user "$_REMOTE_USER"
 # check for existing user by id
-uid=$(getent passwd "$REMOTE_UID") || true
-# delete it if existing
-if [[ -n $uid ]]; then
-  echo "removing existing user"
-  user=$(getent passwd "$REMOTE_UID" | sed 's/:\+/ /g' | awk '{print $1}')
-  echo "command: deluser $user"
-  deluser "$user"
-fi
+remove_user "$REMOTE_UID"
+
+remove_group "$REMOTE_GID"
+remove_group "$REMOTE_GROUP"
 
 # create the new group
 if [[ -n $REMOTE_GID ]]; then
   GROUP_OPTS="$GROUP_OPTS --gid $REMOTE_GID"
 fi
 if [[ -n $REMOTE_GROUP ]]; then
+  echo "create new user group $REMOTE_GROUP"
   addgroup $GROUP_OPTS "$REMOTE_GROUP"
 fi
 
+append_opt "-g" "$REMOTE_GROUP"
+append_opt "-d" "$REMOTE_HOME"
+append_opt "-u" "$REMOTE_UID"
+append_opt "-s" "$REMOTE_SHELL"
+USER_OPTS="-m $USER_OPTS"    # create the user's home directory if it does not exist
+USER_OPTS="${USER_OPTS#" "}" # remove leading space
 # create the new user
-if [[ -n $REMOTE_UID ]]; then
-  USER_OPTS="$USER_OPTS -mou $REMOTE_UID"
-fi
-if [[ -n $REMOTE_SHELL ]]; then
-  USER_OPTS="$USER_OPTS -s $REMOTE_SHELL"
-fi
-if [[ -n $REMOTE_GROUP ]]; then
-  USER_OPTS="$USER_OPTS -g $REMOTE_GROUP"
-fi
 if [[ -n $_REMOTE_USER ]]; then
-  echo "Adding user with command: useradd $USER_OPTS $_REMOTE_USER"
+  echo "Adding user with command: 'useradd $USER_OPTS $_REMOTE_USER'"
   useradd $USER_OPTS "$_REMOTE_USER"
 fi
-
