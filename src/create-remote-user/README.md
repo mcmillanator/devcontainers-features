@@ -7,7 +7,7 @@ Create the remoteUser at build time with options and group
 
 ```json
 "features": {
-    "ghcr.io/mcmillanator/create-remote-user/create-remote-user:1": {}
+    "ghcr.io/mcmillanator/devcontainers-features/create-remote-user:1": {}
 }
 ```
 
@@ -25,4 +25,4 @@ Create the remoteUser at build time with options and group
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/mcmillanator/create-remote-user/blob/main/src/create-remote-user/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/mcmillanator/devcontainers-features/blob/main/src/create-remote-user/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
